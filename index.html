@@ -1,0 +1,81 @@
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r77/three.js" type="text/javascript"></script>
+<script src="js/TrackballControls.js"></script>
+<script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+
+
+</head>
+<body style="margin:0">
+
+</body >
+
+<script type="text/javascript">
+
+
+var scene;
+var camera;
+var renderer;
+var controls;
+
+
+function setup() {
+
+  // Empty Scene
+  scene = new THREE.Scene();
+
+  // Setup Camera
+  camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 1000000 );
+  camera.position.set(0,0,10);
+
+  // Setup Renderer
+  renderer = new THREE.WebGLRenderer();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	var container = $('body');
+  container.append(renderer.domElement);
+
+  //Trackball Controls
+  controls = new THREE.TrackballControls( camera, renderer.domElement );
+  controls.target.set(0,0, 0);
+  controls.noZoom = false;
+  controls.noPan = false;
+
+}
+
+
+function createCube() {
+  var geometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
+  var material = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+  return new THREE.Mesh( geometry, material );
+}
+
+function setupScene() {
+
+
+  var geometry = new THREE.PlaneGeometry( 20, 20, 20, 20 );
+  var material = new THREE.MeshBasicMaterial( { wireframe:true, color: 0xffffff, side: THREE.DoubleSide} );
+  var groundPlane = new THREE.Mesh( geometry, material );
+  scene.add( groundPlane );
+
+}
+
+
+
+$( document ).ready(function() {
+
+  setup();
+  setupScene();
+
+	function render() {
+    controls.update();
+    renderer.render( scene, camera );   
+    requestAnimationFrame( render );
+	}
+
+
+	render();
+
+});
+</script>
+
+</html>
