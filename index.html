@@ -49,8 +49,14 @@ function createCube() {
   return new THREE.Mesh( geometry, material );
 }
 
+var cube = createCube();
+var time = 0;
+
 function setupScene() {
 
+  cube.position.z = 1;
+
+  scene.add(cube);
 
   var geometry = new THREE.PlaneGeometry( 20, 20, 20, 20 );
   var material = new THREE.MeshBasicMaterial( { wireframe:true, color: 0xffffff, side: THREE.DoubleSide} );
@@ -59,16 +65,18 @@ function setupScene() {
 
 }
 
-
-
 $( document ).ready(function() {
 
   setup();
   setupScene();
 
 	function render() {
+    cube.position.z = Math.sin(time);
+    time+=0.1;
+
     controls.update();
-    renderer.render( scene, camera );   
+    renderer.render( scene, camera );
+
     requestAnimationFrame( render );
 	}
 
